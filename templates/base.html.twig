@@ -3,6 +3,9 @@
     <head>
         <meta charset="UTF-8">
         <title>{% block title %}Welcome!{% endblock %}</title>
+        <link href="{{ asset('assets/css/bootstrap.min.css') }}" rel="stylesheet" type="text/css"/>
+        <link href="{{ asset('assets/css/paper-dashboard.css') }}" rel="stylesheet" type="text/css"/>
+        <link href="{{ asset('assets/css/myStyle.css') }}" rel="stylesheet" type="text/css"/>
         {# Run `composer require symfony/webpack-encore-bundle`
            and uncomment the following Encore helpers to start using Symfony UX #}
         {% block stylesheets %}
@@ -13,7 +16,186 @@
             {#{{ encore_entry_script_tags('app') }}#}
         {% endblock %}
     </head>
-    <body>
-        {% block body %}{% endblock %}
-    </body>
+    <body >
+
+    <div class="wrapper">
+        <div class="sidebar" data-color="white" data-active-color="danger">
+            <div class="logo">
+                <a href="https://www.creative-tim.com" class="simple-text logo-mini">
+                    <div class="logo-image-small">
+                        <img src="../assets/img/logo-small.png">
+                    </div> <!-- <p>CT</p> -->
+                </a> <a href=""
+                        class="simple-text logo-normal">
+
+                    {% if app.user is null %}
+                        identifier vous
+                        {% else %}
+                        {{ app.user.firstName }}
+                    {% endif %}
+
+                </a>
+            </div>
+            <div class="sidebar-wrapper">
+                <ul class="nav">
+                    {% if app.request.getPathInfo() == '/' %}
+                    <li class="active ">
+                        {% else %}
+                    <li >
+                        {% endif %}
+                        <a href="{{ path('home_page') }}"> <i
+                                    class="nc-icon nc-bank"></i>
+                            <p>Accueil</p>
+                        </a></li>
+
+                    {% if app.user is  null %}
+
+                    {% if app.request.getPathInfo() == '/login' %}
+                    <li class="active ">
+                        {% else %}
+                    <li >
+                        {% endif %}
+                        <a href="{{ path('login') }}"> <i
+                                    class="nc-icon nc-diamond"></i>
+                            <p>S'identifier</p>
+                        </a></li>
+                    {% if app.request.getPathInfo() == '/register' %}
+                    <li class="active ">
+                        {% else %}
+                    <li >
+                        {% endif %}                    <a href="{{ path('app_register') }}"> <i
+                                    class="nc-icon nc-diamond"></i>
+                            <p>S'inscrire</p>
+                        </a></li>
+
+                    {% endif %}
+
+                    {% if app.request.getPathInfo() == '/livre/' %}
+                    <li class="active ">
+                        {% else %}
+                    <li >
+                        {% endif %}                    <a href="{{ path('livre_index') }}"> <i
+                                    class="nc-icon nc-diamond"></i>
+                            <p>Liste des livres</p>
+                        </a></li>
+                    {% if app.user is not null and app.user.roles[0] == "ROLE_AGENT"  %}
+                    {% if app.request.getPathInfo() == '/agent/emprunt/livres' %}
+                        <li class="active ">
+                    {% else %}
+                        <li >
+                    {% endif %}
+                        <a href="{{ path('agent_emprunt_livres') }}"> <i
+                                        class="nc-icon nc-diamond"></i>
+                                <p>Liste des demandes</p>
+                            </a></li>
+                    {% endif %}
+                    {% if app.user is not null %}
+                    <li >
+                        <a href="{{ path('app_logout') }}"> <i
+                                    class="nc-icon nc-diamond"></i>
+                            <p>Log out</p>
+                        </a></li>
+                    {% endif %}
+{#                    {% if app.request.getPathInfo() == '/emprunt/livres' %}#}
+{#                    <li class="active ">#}
+{#                        {% else %}#}
+{#                    <li >#}
+{#                        {% endif %}#}
+{#                        <a href="{{ path('home_page') }}"> <i#}
+{#                                    class="nc-icon nc-bank"></i>#}
+{#                            <p>Accueil</p>#}
+{#                        </a></li>#}
+                </ul>
+            </div>
+        </div>
+        <div class="main-panel" style="height: 100%">
+
+            <!-- Navbar -->
+            <nav
+                    class="navbar navbar-expand-lg navbar-absolute fixed-top navbar-transparent">
+                <div class="container-fluid">
+                    <div class="navbar-wrapper">
+                        <div class="navbar-toggle">
+                            <button type="button" class="navbar-toggler">
+                                <span class="navbar-toggler-bar bar1"></span> <span
+                                        class="navbar-toggler-bar bar2"></span> <span
+                                        class="navbar-toggler-bar bar3"></span>
+                            </button>
+                        </div>
+                        <a class="navbar-brand" href="javascript:;">
+                            {% if app.user is not null and   app.user.roles[0] == "ROLE_ETUDIANT"  %}
+                               ROLE: ETUDIANT/ENSEIGNANT
+                                {% elseif app.user is not null and   app.user.roles[0] == "ROLE_AGENT"  %}
+                                ROLE: AGENT
+                            {% endif %}
+                        </a>
+                    </div>
+                    <button class="navbar-toggler" type="button" data-toggle="collapse"
+                            data-target="#navigation" aria-controls="navigation-index"
+                            aria-expanded="false" aria-label="Toggle navigation">
+                        <span class="navbar-toggler-bar navbar-kebab"></span> <span
+                                class="navbar-toggler-bar navbar-kebab"></span> <span
+                                class="navbar-toggler-bar navbar-kebab"></span>
+                    </button>
+                    <div class="collapse navbar-collapse justify-content-end"
+                         id="navigation">
+
+                        <ul class="navbar-nav">
+                            <li class="nav-item"><a class="nav-link btn-rotate"
+                                                    href="/TP03/EditUserProfile"> <i
+                                            class="nc-icon nc-settings-gear-65"></i>
+                                    <p>
+                                        <span class="d-lg-none d-md-block">Account</span>
+                                    </p>
+                                </a></li>
+                        </ul>
+                    </div>
+                </div>
+            </nav>
+            <!-- End Navbar -->
+            <div class="content">
+
+
+
+            {% block body %} {% endblock %}
+            </div>
+        </div>
+    </div>
+
+{#    condition active bar menu lef#}
+{#    {% if app.request.getPathInfo() == '/livre/' %}#}
+{#        identifier vous#}
+{#    {% else %}#}
+{#        {{ app.user.firstName }}#}
+{#    {% endif %}#}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    {#        <header>#}
+{#            <div style="background-color: #aacd4e">#}
+{#                <h4>SOME SYMFONY TRAINING</h4>#}
+{#                <br>#}
+{#                <a href="{{ path('livre_index') }}">Livres</a> &nbsp;#}
+{#                <a href="{{ path('editeur_index') }}">Editeurs</a> &nbsp;#}
+{#                <a href="{{ path('auteur_index') }}">Auteurs</a>&nbsp;#}
+{#                <a href="{{ path('categorie_index') }}">Categories</a>&nbsp;#}
+
+{#            </div>#}
+{#        </header>#}
+
+
+
+   </body>
 </html>

@@ -1,0 +1,84 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Livre index{% endblock %}
+
+{% block body %}
+    <h1>Livre </h1>
+
+    <form name="filtrer_livre" method="GET"
+          action="{{ path('livre_index')}}"
+    >
+
+{#                <select  class="form-select form-control" aria-label="Default select example" id="role" name="role">#}
+{#                    <option value="ROLE_AGENT">ETUDIANT OU ENSEIGNANT</option>#}
+{#                    <option value="ROLE_ETUDIANT">AGENT</option>#}
+{#                </select>#}
+
+        <div class="col-md-6 pl-1">
+            <div class="form-group row">
+
+        <label for="livre_categorie">filtrer categorie</label>
+        <select class="form-select form-control" id="livre_categorie" name="category_id">
+            <option value="0" > select a category</option>
+            {% for categorie in categories %}
+                <option value="{{ categorie.id }}">{{ categorie.designation }}</option>
+            {% endfor %}
+        </select>
+        <input type="submit" value="ok" class="btn btn-primary"/>
+            </div>
+        </div>
+    </form>
+    <a href="{{ path('advanced_filter')}}">
+        <button class="btn btn-primary" >Recherche Avancée</button>
+    </a>
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Titre</th>
+                <th>NbPages</th>
+                <th>Prix</th>
+                <th>DateEdition</th>
+                <th>NbExemplaires</th>
+                <th>Isbn</th>
+                <th>actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for livre in livres %}
+            <tr>
+                <td>{{ livre.id }}</td>
+                <td>{{ livre.titre }}</td>
+                <td>{{ livre.nbPages }}</td>
+                <td>{{ livre.prix }}</td>
+                <td>{{ livre.dateEdition ? livre.dateEdition|date('Y-m-d') : '' }}</td>
+                <td>{{ livre.nbExemplaires }}</td>
+                <td>{{ livre.isbn }}</td>
+                <td>
+                    <a href="{{ path('livre_show', {'id': livre.id}) }}"> <button class="btn btn-primary" >show</button></a>
+
+                    {% if app.user is not null and   app.user.roles[0] == "ROLE_ETUDIANT"  %}
+                        {% if (livre.test(app.user,livre.id) == 'non' or  livre.test(app.user,livre.id) == 'reçu')  and livre.nbExemplaires>0%}
+                        <a href="{{ path('reserver_livre', {'livreEmp': livre.id}) }}"> <button class="btn btn-success" >reserver livre</button></a>
+                        {% elseif livre.test(app.user,livre.id) == 'en_attente' %}
+                                <a href="{{ path('annuler_reserver_livre', {'livreEmp': livre.id}) }}"> <button class="btn btn-danger" >annuler l'emprunt</button></a>
+                            {% elseif livre.test(app.user,livre.id) == 'sent' %}
+                                <a><button class="btn btn-outline-warning disabled" style="padding-left: 30px; padding-right: 30px"> emprunt terminé  </button> </a>
+                        {% endif %}
+                    {% elseif app.user is not null and   app.user.roles[0] == "ROLE_AGENT"  %}
+                        <a href="{{ path('livre_edit', {'id': livre.id}) }}"> <button class=" btn btn-success " >edit</button></a>
+                    {% endif %}
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="7">no records found</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+    {% if app.user is not null and   app.user.roles[0] == "ROLE_AGENT"  %}
+    <a href="{{ path('livre_new') }}"><button class="btn btn-primary">Create new</button></a>
+    {% endif %}
+{% endblock %}

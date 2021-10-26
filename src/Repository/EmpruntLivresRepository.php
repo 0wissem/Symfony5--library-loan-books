@@ -1,0 +1,64 @@
+<?php
+
+namespace App\Repository;
+
+use App\Entity\EmpruntLivres;
+use App\Entity\Livre;
+use App\Entity\User;
+use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
+use Doctrine\Persistence\ManagerRegistry;
+
+/**
+ * @method EmpruntLivres|null find($id, $lockMode = null, $lockVersion = null)
+ * @method EmpruntLivres|null findOneBy(array $criteria, array $orderBy = null)
+ * @method EmpruntLivres[]    findAll()
+ * @method EmpruntLivres[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
+ */
+class EmpruntLivresRepository extends ServiceEntityRepository
+{
+    public function __construct(ManagerRegistry $registry)
+    {
+        parent::__construct($registry, EmpruntLivres::class);
+    }
+
+    // /**
+    //  * @return EmpruntLivres[] Returns an array of EmpruntLivres objects
+    //  */
+
+    public function findUserEmprunts(User $user, Livre $livre)
+    {
+        return $this->createQueryBuilder('e')
+            ->delete('emprunt_livres', 'e')
+            ->andWhere('e.User = :val')
+            ->setParameter('val', $user)
+            ->andWhere('e.livre = :liv')
+            ->setParameter('liv', $livre)
+            ->getQuery()
+            ->getResult()
+        ;
+    }
+//    public function delete_Emprunt(User $user, Livre $livre)
+//    {
+//        return $this->createQueryBuilder('e')
+//            ->andWhere('e.User = :val')
+//            ->setParameter('val', $user)
+//            ->getQuery()
+//            ->getResult()
+//            ;
+//    }
+
+
+
+
+    /*
+    public function findOneBySomeField($value): ?EmpruntLivres
+    {
+        return $this->createQueryBuilder('e')
+            ->andWhere('e.exampleField = :val')
+            ->setParameter('val', $value)
+            ->getQuery()
+            ->getOneOrNullResult()
+        ;
+    }
+    */
+}

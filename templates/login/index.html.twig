@@ -1,0 +1,111 @@
+{# templates/login/index.html.twig #}
+{% extends 'base.html.twig' %}
+{# ... #}
+
+{% block body %}
+    <h1>Login</h1>
+
+    <div class="col-md-12">
+    <div class="card-user container">
+    <form action="{{ path('login') }}" method="post">
+        <div  style=" justify-content: center ; align-items: center">
+
+            <div class="col-md-12 pr-1 ">
+                <div class="form-group ">
+                    <label for="username">Email:</label>
+                    <input type="text" class="form-control"  name="_username" value="{{ last_username }}"
+                                                placeholder="Email"
+                                                required="required">
+                </div>
+            </div>
+            <div class="col-md-12 pr-1">
+                <div class="form-group ">
+                    <label for="password">Password:</label>
+                    <input type="password" class="form-control"   id="password" name="_password"
+                           placeholder="Email"
+                           required="required">
+                </div>
+            </div>
+        </div>
+
+
+
+        {# If you want to control the URL the user is redirected to on success
+
+        #}
+
+        <input type="hidden" name="livre_index" value="/livre"/>
+        {% if error %}
+            <div style="margin-left:30px"><p style=" color:red; " >{{ error.messageKey|trans(error.messageData, 'security') }}</p></div>
+        {% endif %}
+
+        <div class="row">
+            <div class="update ml-auto mr-auto">
+                <button type="submit" class="btn btn-primary btn-round">login
+                </button>
+            </div>
+        </div>
+    </form>
+    </div>
+    </div>
+
+{#            <form action="{{ path('verif_registration') }}" method="post">#}
+
+{#                <div class="row">#}
+{#                    <div class="col-md-6 pr-1">#}
+{#                        <div class="form-group">#}
+{#                            <label>Prénom</label> <input type="text" class="form-control" name="prenom"  placeholder="Prénom"#}
+{#                                                         required="required">#}
+{#                        </div>#}
+{#                    </div>#}
+{#                    <div class="col-md-6 pl-1">#}
+{#                        <div class="form-group">#}
+{#                            <label>Nom</label> <input type="text" class="form-control"#}
+{#                                                      placeholder="Nom" name="nom"#}
+{#                                                      required="required">#}
+{#                        </div>#}
+{#                    </div>#}
+{#                </div>#}
+{#                <div class="row">#}
+
+{#                    <div class="col-md-12 pr-1">#}
+{#                        <div class="form-group">#}
+{#                            <label>Login</label> <input type="text" class="form-control"#}
+{#                                                        placeholder="Email" name="email"#}
+{#                                                        required="required">#}
+{#                        </div>#}
+{#                    </div>#}
+
+{#                </div>#}
+{#                <div class="row">#}
+{#                    <div class="col-md-6 pr-1">#}
+{#                        <div class="form-group">#}
+{#                            <label for="exampleInputEmail1">Mot de passe</label> <input#}
+{#                                    type="text" class="form-control" placeholder="Mot de passe" name="pwd"#}
+{#                                    required="required">#}
+{#                        </div>#}
+{#                    </div>#}
+{#                    <div class="col-md-6 pl-1">#}
+{#                        <div class="form-group">#}
+
+{#                            <label >Role</label>#}
+{#                            <select  class="form-select form-control" aria-label="Default select example" id="role" name="role">#}
+{#                                <option value="ROLE_AGENT">ETUDIANT OU ENSEIGNANT</option>#}
+{#                                <option value="ROLE_ETUDIANT">AGENT</option>#}
+{#                            </select>#}
+{#                        </div>#}
+{#                    </div>#}
+{#                </div>#}
+{#                <div >#}
+{#                    <p style=" color:red; " >{{ id }}</p>#}
+{#                </div>#}
+{#                <div class="row">#}
+{#                    <div class="update ml-auto mr-auto">#}
+{#                        <button type="submit" class="btn btn-primary btn-round">Confirmer#}
+{#                        </button>#}
+{#                    </div>#}
+{#                </div>#}
+{#            </form>#}
+
+
+{% endblock %}

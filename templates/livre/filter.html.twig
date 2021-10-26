@@ -1,0 +1,68 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}filtage avancée{% endblock %}
+
+{% block body %}
+    <div class="container"><br><br>
+    <h1>Filtrage avancée</h1><br>
+
+    <form action="{{ path('advanced_filter2')}}" method="POST" name="advanced_filter" class="col-10">
+        <div class="form-group ">
+            <label >Title</label>
+            <input name="title" type="text" class="form-control" placeholder="Enter title">
+        </div>
+        <br>
+        <div class="row">
+            <div class="form-group col-6">
+                <label >Date d'édition du</label>
+                <input type="date" class="form-control" id="date_min" placeholder="xxxx/yy/zz" name="date_min">
+            </div>
+            <div class="form-group col-6">
+                <label for="prix_max">Jusqu'à</label>
+                <input type="date" class="form-control" id="date_max" placeholder="xxxx/yy/zz" name="date_max">
+            </div>
+        </div><br>
+        <div class="row">
+            <div class="form-group col-6">
+                <label for="prix_min">prix min</label>
+                <input type="number" class="form-control" id="prix_min" placeholder="entrer prix min" name="prix_min">
+            </div>
+            <div class="form-group col-6">
+                <label for="prix_max">prix max</label>
+                <input type="number" class="form-control" id="prix_max" placeholder="entrer prix max" name="prix_max">
+            </div>
+        </div><br>
+        <label for="livre_categorie">categorie</label>
+        <select id="livre_categorie" name="category_id"  class="form-select" aria-label="Default select example">
+            <option value="0" selected > select a category</option>
+            {% for categorie in categories %}
+                <option value="{{categorie.id}}">{{ categorie.designation }}</option>
+            {% endfor %}
+        </select>
+        <br>
+
+        <label for="editeur">Editeur</label>
+        <select id="editeur" name="editeur_id"  class="form-select" aria-label="Default select example">
+            <option value="0" selected > select editeur</option>
+            {% for editeur in editeurs %}
+                <option value="{{editeur.id}}">{{ editeur.nomEditeur }}</option>
+            {% endfor %}
+        </select>
+        <br>
+
+        <label for="auteur">Auteur</label>
+        <select id="auteur" name="auteur_id"  class="form-select" aria-label="Default select example">
+            <option value="0" selected > select a category</option>
+            {% for auteur in auteurs %}
+                <option value="{{auteur.id}}">{{ auteur.prenom }}  {{ auteur.nom }}</option>
+            {% endfor %}
+        </select>
+        <br>
+
+        <button type="submit" class="btn btn-primary">Submit</button>
+    </form>
+
+
+    <a href="{{ path('livre_index') }}">back to list</a>
+    </div>
+{% endblock %}

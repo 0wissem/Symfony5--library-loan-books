@@ -1,0 +1,46 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}liste des emprunts{% endblock %}
+
+{% block body %}
+<style>
+    .example-wrapper { margin: 1em auto; max-width: 800px; width: 95%; font: 18px/1.5 sans-serif; }
+    .example-wrapper code { background: #F5F5F5; padding: 2px 6px; }
+</style>
+
+    <table class="table">
+        <thead>
+        <tr>
+            <th>Titre</th>
+            <th>user</th>
+            <th>date de reservation</th>
+            <th>action</th>
+
+        </tr>
+        </thead>
+        <tbody>
+        {% for livreEmp in EmpruntLivres %}
+            <tr>
+                <td>{{  livreEmp.livre.titre}}</td>
+                <td> {{ livreEmp.user.email}} </td>
+                <td>{{  livreEmp.getDateDeReservation()|date('Y-m-d h:mA') }}</td>
+                <td>
+                    {% if app.user is not null and   app.user.roles[0] == "ROLE_AGENT"  %}
+                        {% if livreEmp.state == 'en_attente' %}
+                         <a href="{{ path('confirmer_envoie_livre', {'livreEmp':livreEmp.id}) }}"><button class="btn btn-warning">confirmer l'envoie du livre </button></a>
+                        {% elseif livreEmp.state == 'sent' %}
+                            <a href="{{ path('confirmer_retour_livre', {'livreEmp':livreEmp.id}) }}"><button class="btn btn-success">confirmer la retour du livre</button> </a>
+                        {% elseif livreEmp.state == 'reçu' %}
+                            <button class="btn btn-outline-success disabled">reçu</button>
+                        {% endif %}
+                    {% endif %}
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="7">no records found</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+{% endblock %}
