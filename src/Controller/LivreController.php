@@ -13,13 +13,11 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
-/**
- * @Route("/livre")
- */
+
 class LivreController extends AbstractController
 {
     /**
-     * @Route("/", name="livre_index", methods={"GET"})
+     * @Route("/livre/", name="livre_index", methods={"GET"})
      */
     public function index(Request $request,LivreRepository $livreRepository, CategorieRepository $categorieRepository): Response
     {
@@ -40,7 +38,7 @@ class LivreController extends AbstractController
 
     }
     /**
-     * @Route("/advanced_filter", name="advanced_filter", methods={"GET"})
+     * @Route("/livre/advanced_filter", name="advanced_filter", methods={"GET"})
      */
     public function advanced_filter(EditeurRepository $editeurRepository,AuteurRepository $auteurRepository,LivreRepository $livreRepository, CategorieRepository $categorieRepository): Response
     {
@@ -53,7 +51,7 @@ class LivreController extends AbstractController
         ]);
     }
     /**
-     * @Route("/advanced_filter", name="advanced_filter2", methods={"POST"})
+     * @Route("/livre/advanced_filter", name="advanced_filter2", methods={"POST"})
      */
     public function advanced_filter_post(Request $request,EditeurRepository $editeurRepository,AuteurRepository $auteurRepository,LivreRepository $livreRepository, CategorieRepository $categorieRepository): Response
     {
@@ -82,7 +80,7 @@ class LivreController extends AbstractController
     }
 
     /**
-     * @Route("/new", name="livre_new", methods={"GET","POST"})
+     * @Route("/agent/livre/new", name="livre_new", methods={"GET","POST"})
      */
     public function new(Request $request): Response
     {
@@ -104,7 +102,7 @@ class LivreController extends AbstractController
         ]);
     }
     /**
-     *  @Route("/livreprix/{prix}", name="livre_Prix")
+     *  @Route("/livre/livreprix/{prix}", name="livre_Prix")
      */
     public function livrePrix(float $prix = -1): Response
     {
@@ -118,7 +116,7 @@ class LivreController extends AbstractController
 
 
     /**
-     * @Route("/{id}", name="livre_show", methods={"GET"})
+     * @Route("/livre/{id}", name="livre_show", methods={"GET"})
      */
     public function show(Livre $livre): Response
     {
@@ -128,7 +126,7 @@ class LivreController extends AbstractController
     }
 
     /**
-     * @Route("/{id}/edit", name="livre_edit", methods={"GET","POST"})
+     * @Route("/agent/livre/{id}/edit", name="livre_edit", methods={"GET","POST"})
      */
     public function edit(Request $request, Livre $livre): Response
     {
@@ -148,7 +146,7 @@ class LivreController extends AbstractController
     }
 
     /**
-     * @Route("/{id}", name="livre_delete", methods={"POST"})
+     * @Route("/livre/{id}", name="livre_delete", methods={"POST"})
      */
     public function delete(Request $request, Livre $livre): Response
     {

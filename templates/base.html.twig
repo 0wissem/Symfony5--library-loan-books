@@ -6,6 +6,8 @@
         <link href="{{ asset('assets/css/bootstrap.min.css') }}" rel="stylesheet" type="text/css"/>
         <link href="{{ asset('assets/css/paper-dashboard.css') }}" rel="stylesheet" type="text/css"/>
         <link href="{{ asset('assets/css/myStyle.css') }}" rel="stylesheet" type="text/css"/>
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+
         {# Run `composer require symfony/webpack-encore-bundle`
            and uncomment the following Encore helpers to start using Symfony UX #}
         {% block stylesheets %}
@@ -21,7 +23,7 @@
     <div class="wrapper">
         <div class="sidebar" data-color="white" data-active-color="danger">
             <div class="logo">
-                <a href="https://www.creative-tim.com" class="simple-text logo-mini">
+                <a href="" class="simple-text logo-mini">
                     <div class="logo-image-small">
                         <img src="../assets/img/logo-small.png">
                     </div> <!-- <p>CT</p> -->
@@ -43,8 +45,9 @@
                         {% else %}
                     <li >
                         {% endif %}
-                        <a href="{{ path('home_page') }}"> <i
-                                    class="nc-icon nc-bank"></i>
+                        <a href="{{ path('home_page') }}">
+                            <i class="fa fa-home" aria-hidden="true"></i>
+
                             <p>Accueil</p>
                         </a></li>
 
@@ -55,16 +58,18 @@
                         {% else %}
                     <li >
                         {% endif %}
-                        <a href="{{ path('login') }}"> <i
-                                    class="nc-icon nc-diamond"></i>
+
+                        <a href="{{ path('login') }}">
+                            <i class="fa fa-sign-in" aria-hidden="true"></i>
+
                             <p>S'identifier</p>
                         </a></li>
                     {% if app.request.getPathInfo() == '/register' %}
                     <li class="active ">
                         {% else %}
                     <li >
-                        {% endif %}                    <a href="{{ path('app_register') }}"> <i
-                                    class="nc-icon nc-diamond"></i>
+                        {% endif %}                    <a href="{{ path('app_register') }}">
+                        <i class="fa fa-id-card-o" aria-hidden="true"></i>
                             <p>S'inscrire</p>
                         </a></li>
 
@@ -74,8 +79,8 @@
                     <li class="active ">
                         {% else %}
                     <li >
-                        {% endif %}                    <a href="{{ path('livre_index') }}"> <i
-                                    class="nc-icon nc-diamond"></i>
+                        {% endif %}                    <a href="{{ path('livre_index') }}">
+                            <i class="fa fa-book" aria-hidden="true"></i>
                             <p>Liste des livres</p>
                         </a></li>
                     {% if app.user is not null and app.user.roles[0] == "ROLE_AGENT"  %}
@@ -91,8 +96,8 @@
                     {% endif %}
                     {% if app.user is not null %}
                     <li >
-                        <a href="{{ path('app_logout') }}"> <i
-                                    class="nc-icon nc-diamond"></i>
+                        <a href="{{ path('app_logout') }}">
+                            <i class="fa fa-sign-out" aria-hidden="true"></i>
                             <p>Log out</p>
                         </a></li>
                     {% endif %}
