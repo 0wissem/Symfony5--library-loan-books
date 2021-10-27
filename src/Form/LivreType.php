@@ -21,7 +21,7 @@ class LivreType extends AbstractType
             ->add('dateEdition', DateType::class , ['widget'=>'single_text'])
             ->add('nbExemplaires')
             ->add('prix', NumberType::class,['attr'=>['value'=> 0]])
-            ->add('isbn', NumberType::class, ['attr'=>['placeholder'=>'isbn 8 sur chiffres']])
+            ->add('isbn', NumberType::class, ['attr'=>['placeholder'=>'isbn 8 chiffres']])
             ->add('editeur')
             ->add('categorie', EntityType::class, ['class'=> Categorie::class , 'choice_label'=>'designation'])
             ->add('auteur')
