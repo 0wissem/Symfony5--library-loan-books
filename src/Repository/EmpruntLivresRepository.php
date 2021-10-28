@@ -25,14 +25,16 @@ class EmpruntLivresRepository extends ServiceEntityRepository
     //  * @return EmpruntLivres[] Returns an array of EmpruntLivres objects
     //  */
 
-    public function findUserEmprunts(User $user, Livre $livre)
+    public function findWeeklyUserEmprunts(User $user)
     {
         return $this->createQueryBuilder('e')
-            ->delete('emprunt_livres', 'e')
             ->andWhere('e.User = :val')
             ->setParameter('val', $user)
-            ->andWhere('e.livre = :liv')
-            ->setParameter('liv', $livre)
+            ->andWhere('e.date_de_reservation > :lastWeekDate')
+            ->setParameter('lastWeekDate', (new \DateTime('now'))->modify('- 1week'))
+//            ->andWhere('e.state = :en_attente or e.state = :sent')
+//            ->setParameter('en_attente','en_attente')
+//            ->setParameter('sent', 'sent')
             ->getQuery()
             ->getResult()
         ;

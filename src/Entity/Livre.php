@@ -65,7 +65,7 @@ class Livre
     private $prix;
 
     /**
-     * @ORM\ManyToMany(targetEntity=EmpruntLivres::class, mappedBy="Livre")
+     * @ORM\OneToMany(targetEntity=EmpruntLivres::class, mappedBy="Livre")
      */
     private $empruntLivres;
 

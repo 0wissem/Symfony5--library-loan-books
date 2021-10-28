@@ -60,11 +60,11 @@
 
                     {% if app.user is not null and   app.user.roles[0] == "ROLE_ETUDIANT"  %}
                         {% if (livre.test(app.user,livre.id) == 'non' or  livre.test(app.user,livre.id) == 'reçu')  and livre.nbExemplaires>0%}
-                        <a href="{{ path('reserver_livre', {'livreEmp': livre.id}) }}"> <button class="btn btn-success" >reserver livre</button></a>
+                        <a href="{{ path('reserver_livre', {'livreEmp': livre.id}) }}"> <button class="btn btn-success">reserver livre</button></a>
                         {% elseif livre.test(app.user,livre.id) == 'en_attente' %}
-                                <a href="{{ path('annuler_reserver_livre', {'livreEmp': livre.id}) }}"> <button class="btn btn-danger" >annuler l'emprunt</button></a>
+                                <a href="{{ path('annuler_reserver_livre', {'livreEmp': livre.id}) }}"> <button class="btn btn-danger"  >annuler l'emprunt</button></a>
                             {% elseif livre.test(app.user,livre.id) == 'sent' %}
-                                <a><button class="btn btn-outline-warning disabled" style="padding-left: 30px; padding-right: 30px"> emprunt terminé  </button> </a>
+                                <a><button class="btn btn-outline-warning disabled" style="padding-left: 30px; padding-right: 30px"> emprunté  </button> </a>
                         {% endif %}
                     {% elseif app.user is not null and   app.user.roles[0] == "ROLE_AGENT"  %}
                         <a href="{{ path('livre_edit', {'id': livre.id}) }}"> <button class=" btn btn-success " >edit</button></a>
@@ -78,6 +78,7 @@
         {% endfor %}
         </tbody>
     </table>
+
     {% if app.user is not null and   app.user.roles[0] == "ROLE_AGENT"  %}
     <a href="{{ path('livre_new') }}"><button class="btn btn-primary">Create new</button></a>
     {% endif %}

@@ -6,6 +6,8 @@ use App\Entity\EmpruntLivres;
 use App\Entity\Livre;
 use App\Repository\EmpruntLivresRepository;
 use App\Repository\LivreRepository;
+use phpDocumentor\Reflection\Types\This;
+use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
@@ -38,9 +40,7 @@ class EmpruntLivresController extends AbstractController
      */
     public function annuler_reservation_livre(UserInterface $userInterface,Request $request,EmpruntLivresRepository $empruntLivresRepository, LivreRepository $livreRepository): Response
     {
-
         $livreEmp_id = $request->get('livreEmp');
-       // dump($livreEmp_id); die();
         $livre = $livreRepository->findOneBy(['id'=>$livreEmp_id]);
         $livreEmp = $empruntLivresRepository->findOneBy(['Livre'=>$livre]);
         //$empruntLivresRepository->delete_Emprunt($userInterface, $livre);
@@ -48,6 +48,7 @@ class EmpruntLivresController extends AbstractController
         $entityManager = $this->getDoctrine()->getManager();
         $entityManager->remove($livreEmp);
         $entityManager->flush();
+        $this->addFlash('success', 'la reservation du livre '.$livre->getTitre().' a été annulée');
         return $this->redirectToRoute('livre_index');
     }
     /**
@@ -55,18 +56,26 @@ class EmpruntLivresController extends AbstractController
      */
     public function reserver_livre(UserInterface $userInterface, Request $request,EmpruntLivresRepository $empruntLivresRepository, LivreRepository $livreRepository): Response
     {
-        $livreEmp_id = $request->get('livreEmp');
-        $livreEmp = $livreRepository->findOneBy(['id'=>$livreEmp_id]);
-        $newEmpruntLivre = new EmpruntLivres();
-        $newEmpruntLivre->setUser($userInterface);
-        $newEmpruntLivre->setLivre($livreEmp);
-        $newEmpruntLivre->setState("en_attente");
-        $newEmpruntLivre->setDateDeReservation(new \DateTime("now"));
-        //dump($newEmpruntLivre);die();
-        $entityManager = $this->getDoctrine()->getManager();
-        $entityManager->persist($newEmpruntLivre);
-        $entityManager->flush();
-        return $this->redirectToRoute('livre_index');
+        $list = $empruntLivresRepository->findWeeklyUserEmprunts($userInterface);
+        if(sizeof($list)<3) {
+            $livreEmp_id = $request->get('livreEmp');
+            $livreEmp = $livreRepository->findOneBy(['id' => $livreEmp_id]);
+            $newEmpruntLivre = new EmpruntLivres();
+            $newEmpruntLivre->setUser($userInterface);
+            $newEmpruntLivre->setLivre($livreEmp);
+            $newEmpruntLivre->setState("en_attente");
+            $newEmpruntLivre->setDateDeReservation(new \DateTime("now"));
+            //dump($newEmpruntLivre);die();
+            $entityManager = $this->getDoctrine()->getManager();
+            $entityManager->persist($newEmpruntLivre);
+            $entityManager->flush();
+            $this->addFlash('success', 'Votre demande de reservation du livre '.$livreEmp->getTitre().' a été effectuée');
+
+        }else{
+            $this->addFlash('error', 'Vous avez déjà reservé 3 livres dans les derniéres 7 jours, essayez ultérirement');
+        }
+       // return $this->json(["data"=>"test"]);
+        return $this->redirectToRoute('livre_index', ['successss'=>"mchet"]);
     }
     /**
      * @Route("agent/emprunt/livres/retour", name="confirmer_retour_livre")
