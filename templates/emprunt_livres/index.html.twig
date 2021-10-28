@@ -27,9 +27,9 @@
                 <td>
                     {% if app.user is not null and   app.user.roles[0] == "ROLE_AGENT"  %}
                         {% if livreEmp.state == 'en_attente' %}
-                         <a href="{{ path('confirmer_envoie_livre', {'livreEmp':livreEmp.id}) }}"><button class="btn btn-warning">confirmer l'envoie du livre </button></a>
+                         <a ><button  onclick="get_request( '{{ path('confirmer_envoie_livre', {'livreEmp': livreEmp.id}) }} ')" class="btn btn-warning">confirmer l'envoie du livre </button></a>
                         {% elseif livreEmp.state == 'sent' %}
-                            <a href="{{ path('confirmer_retour_livre', {'livreEmp':livreEmp.id}) }}"><button class="btn btn-success">confirmer la retour du livre</button> </a>
+                            <a ><button  onclick="get_request( '{{ path('confirmer_retour_livre', {'livreEmp': livreEmp.id}) }} ')" class="btn btn-success">confirmer la retour du livre</button> </a>
                         {% elseif livreEmp.state == 'reçu' %}
                             <button class="btn btn-outline-success disabled">reçu</button>
                         {% endif %}

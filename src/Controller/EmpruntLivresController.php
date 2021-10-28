@@ -82,7 +82,7 @@ class EmpruntLivresController extends AbstractController
         //return $this->redirectToRoute('livre_index');
     }
     /**
-     * @Route("agent/emprunt/livres/retour", name="confirmer_retour_livre")
+     * @Route("/agent/emprunt/livres/retour", name="confirmer_retour_livre")
      */
     public function retour_livre(UserInterface $userInterface, Request $request,EmpruntLivresRepository $empruntLivresRepository, LivreRepository $livreRepository): Response
     {
@@ -94,7 +94,10 @@ class EmpruntLivresController extends AbstractController
         $livre->setNbExemplaires($nbExemplaires+1);
         $entityManager = $this->getDoctrine()->getManager();
         $entityManager->flush();
-        return $this->redirectToRoute('agent_emprunt_livres');
+        //return $this->redirectToRoute('agent_emprunt_livres');
+        $this->addFlash('success', 'Vous avez confirmé le retour du livre '.$livre->getTitre().' de la part de '.$livreEmpunté->getUser()->getFirstName());
+        return $this->json(["type"=>"success", "message"=>'Vous avez confirmé le retour du livre '.$livre->getTitre().' de la part de '.$livreEmpunté->getUser()->getFirstName()]);
+
     }
 
     /**
@@ -109,7 +112,8 @@ class EmpruntLivresController extends AbstractController
         $entityManager = $this->getDoctrine()->getManager();
         $entityManager->persist($livreEmp);
         $entityManager->flush();
-        return $this->redirectToRoute('agent_emprunt_livres');
+        $this->addFlash('success', 'Vous avez confirmé l emprunte du livre '.$livreEmp->getLivre()->getTitre().' à '.$livreEmp->getUser()->getFirstName());
+        return $this->json(["type"=>"success", "message"=>'Vous avez confirmé l emprunte du livre '.$livreEmp->getLivre()->getTitre().' à '.$livreEmp->getUser()->getFirstName()]);
     }
 
 }
