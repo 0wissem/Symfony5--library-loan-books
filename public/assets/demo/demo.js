@@ -388,11 +388,12 @@ demo = {
     marker.setMap(map);
   },
 
-  showNotification: function(from, align) {
-    color = 'primary';
+  showNotification: function(from, align,message,type) {
+
+    color =  type==='error'? "danger":type;
     $.notify({
       icon: "nc-icon nc-bell-55",
-      message: 'test'+message
+      message:message
 
     }, {
       type: color,

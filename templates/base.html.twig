@@ -222,15 +222,19 @@
     <script src="{{ asset('assets/js/plugins/bootstrap-notify.js')}}"></script>
 
     <script>
-        //window.onload = demo.showNotification('top','right')
-        $.ajax({
-            url:'/livre/',
-            method:'GET'
-        }).then(function (req,response, aaa) {
-            console.log(req)
-            console.log(response)
-            console.log(aaa)
-        })
+        function get_request  (url)  {
+            $.ajax({
+                url:url,
+                method:'GET'
+            }).then(function (response) {
+                console.log(response)
+                window.location.reload();
+                setTimeout(()=>{
+                    demo.showNotification('top','center',response.message,response.type)
+                },1)
+            })
+        }
+
     </script>
    </body>
 </html>

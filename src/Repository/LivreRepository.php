@@ -51,6 +51,14 @@ class LivreRepository extends ServiceEntityRepository
         ;
     }
     */
+    public function findAllSQL() : array
+    {
+        $entityManager = $this->getEntityManager();
+        $query = $entityManager->createQuery("SELECT u FROM App\Entity\Livre u");
+        return $query->getResult();
+    }
+
+
     public function test($min = 0, $max=1)
     {
         $em= $this->getEntityManager();

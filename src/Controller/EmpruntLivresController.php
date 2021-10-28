@@ -43,13 +43,11 @@ class EmpruntLivresController extends AbstractController
         $livreEmp_id = $request->get('livreEmp');
         $livre = $livreRepository->findOneBy(['id'=>$livreEmp_id]);
         $livreEmp = $empruntLivresRepository->findOneBy(['Livre'=>$livre]);
-        //$empruntLivresRepository->delete_Emprunt($userInterface, $livre);
-        //dump($livreEmp); die();
         $entityManager = $this->getDoctrine()->getManager();
         $entityManager->remove($livreEmp);
         $entityManager->flush();
         $this->addFlash('success', 'la reservation du livre '.$livre->getTitre().' a été annulée');
-        return $this->redirectToRoute('livre_index');
+        return $this->json(["type"=>"success", "message"=>'Votre demande de reservation du livre '.$livre->getTitre().' a été annulée']);
     }
     /**
      * @Route("/emprunt/livres/reserver", name="reserver_livre")
@@ -69,13 +67,19 @@ class EmpruntLivresController extends AbstractController
             $entityManager = $this->getDoctrine()->getManager();
             $entityManager->persist($newEmpruntLivre);
             $entityManager->flush();
+            $type="success";
+            $message=
             $this->addFlash('success', 'Votre demande de reservation du livre '.$livreEmp->getTitre().' a été effectuée');
+            return $this->json(["type"=>"success", "message"=>'Votre demande de reservation du livre '.$livreEmp->getTitre().' a été effectuée']);
 
         }else{
+
             $this->addFlash('error', 'Vous avez déjà reservé 3 livres dans les derniéres 7 jours, essayez ultérirement');
+            return $this->json(["type"=>"error", "message"=>'Vous avez déjà reservé 3 livres dans les derniéres 7 jours, essayez ultérirement']);
+
         }
        // return $this->json(["data"=>"test"]);
-        return $this->redirectToRoute('livre_index');
+        //return $this->redirectToRoute('livre_index');
     }
     /**
      * @Route("agent/emprunt/livres/retour", name="confirmer_retour_livre")

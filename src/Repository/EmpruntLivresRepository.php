@@ -32,22 +32,11 @@ class EmpruntLivresRepository extends ServiceEntityRepository
             ->setParameter('val', $user)
             ->andWhere('e.date_de_reservation > :lastWeekDate')
             ->setParameter('lastWeekDate', (new \DateTime('now'))->modify('- 1week'))
-//            ->andWhere('e.state = :en_attente or e.state = :sent')
-//            ->setParameter('en_attente','en_attente')
-//            ->setParameter('sent', 'sent')
             ->getQuery()
             ->getResult()
         ;
     }
-//    public function delete_Emprunt(User $user, Livre $livre)
-//    {
-//        return $this->createQueryBuilder('e')
-//            ->andWhere('e.User = :val')
-//            ->setParameter('val', $user)
-//            ->getQuery()
-//            ->getResult()
-//            ;
-//    }
+
 
 
 
