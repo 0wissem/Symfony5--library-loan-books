@@ -75,7 +75,7 @@ class EmpruntLivresController extends AbstractController
             $this->addFlash('error', 'Vous avez déjà reservé 3 livres dans les derniéres 7 jours, essayez ultérirement');
         }
        // return $this->json(["data"=>"test"]);
-        return $this->redirectToRoute('livre_index', ['successss'=>"mchet"]);
+        return $this->redirectToRoute('livre_index');
     }
     /**
      * @Route("agent/emprunt/livres/retour", name="confirmer_retour_livre")
